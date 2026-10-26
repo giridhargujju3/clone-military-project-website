@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useReducedMotion, type TargetAndTransition } from 'framer-motion'
+import { MotionConfig, motion, type TargetAndTransition } from 'framer-motion'
 import type { ReactNode } from 'react'
 
 type Variant = 'up' | 'up-sm' | 'left' | 'zoom' | 'zoom-sm' | 'fade'
@@ -35,24 +35,23 @@ export function Reveal({
   onMount = false,
   as = 'div',
 }: RevealProps) {
-  const reduceMotion = useReducedMotion()
   const Component = as === 'li' ? motion.li : motion.div
   const transition = { duration, delay: delay / 1000, ease: [0.22, 1, 0.36, 1] as const }
 
-  if (reduceMotion) {
-    return <Component className={className}>{children}</Component>
-  }
-
+  // reducedMotion="user" keeps server and client markup identical (avoiding hydration
+  // mismatches) while still disabling transform animations for reduced-motion users.
   return (
-    <Component
-      className={className}
-      initial={hiddenStates[variant]}
-      {...(onMount
-        ? { animate: visibleState }
-        : { whileInView: visibleState, viewport: { once: true, amount: 0.3 } })}
-      transition={transition}
-    >
-      {children}
-    </Component>
+    <MotionConfig reducedMotion="user">
+      <Component
+        className={className}
+        initial={hiddenStates[variant]}
+        {...(onMount
+          ? { animate: visibleState }
+          : { whileInView: visibleState, viewport: { once: true, amount: 0.3 } })}
+        transition={transition}
+      >
+        {children}
+      </Component>
+    </MotionConfig>
   )
 }
