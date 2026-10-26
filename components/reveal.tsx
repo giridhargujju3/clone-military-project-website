@@ -1,46 +1,58 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { cn } from '@/lib/utils'
+import { motion, useReducedMotion, type TargetAndTransition } from 'framer-motion'
+import type { ReactNode } from 'react'
+
+type Variant = 'up' | 'up-sm' | 'left' | 'zoom' | 'zoom-sm' | 'fade'
+
+const hiddenStates: Record<Variant, TargetAndTransition> = {
+  up: { opacity: 0, y: 50 },
+  'up-sm': { opacity: 0, y: 20 },
+  left: { opacity: 0, x: -50 },
+  zoom: { opacity: 0, scale: 0.9 },
+  'zoom-sm': { opacity: 0, scale: 0.95 },
+  fade: { opacity: 0 },
+}
+
+const visibleState: TargetAndTransition = { opacity: 1, x: 0, y: 0, scale: 1 }
 
 type RevealProps = {
   children: ReactNode
   className?: string
   delay?: number
-  as?: 'div' | 'section' | 'li'
+  duration?: number
+  variant?: Variant
+  onMount?: boolean
+  as?: 'div' | 'li'
 }
 
-export function Reveal({ children, className, delay = 0, as: Tag = 'div' }: RevealProps) {
-  const ref = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  duration = 0.8,
+  variant = 'up',
+  onMount = false,
+  as = 'div',
+}: RevealProps) {
+  const reduceMotion = useReducedMotion()
+  const Component = as === 'li' ? motion.li : motion.div
+  const transition = { duration, delay: delay / 1000, ease: [0.22, 1, 0.36, 1] as const }
 
-  useEffect(() => {
-    const node = ref.current
-    if (!node) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.2 },
-    )
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
+  if (reduceMotion) {
+    return <Component className={className}>{children}</Component>
+  }
 
   return (
-    <Tag
-      ref={ref as never}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={cn(
-        'transition-all duration-1000 ease-out motion-reduce:transition-none',
-        visible ? 'translate-y-0 opacity-100 blur-0' : 'translate-y-10 opacity-0 blur-sm',
-        className,
-      )}
+    <Component
+      className={className}
+      initial={hiddenStates[variant]}
+      {...(onMount
+        ? { animate: visibleState }
+        : { whileInView: visibleState, viewport: { once: true, amount: 0.3 } })}
+      transition={transition}
     >
       {children}
-    </Tag>
+    </Component>
   )
 }

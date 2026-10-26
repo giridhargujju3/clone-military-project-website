@@ -21,7 +21,7 @@ const tiers = [
 export function Pricing() {
   return (
     <section aria-labelledby="pricing-title" className="mx-auto max-w-7xl px-4 py-32 md:px-24">
-      <Reveal className="text-center">
+      <Reveal variant="up-sm" className="text-center">
         <h2 id="pricing-title" className="text-chrome font-mono text-4xl font-bold uppercase md:text-6xl">
           Acquisition Tiers
         </h2>
@@ -29,7 +29,7 @@ export function Pricing() {
       </Reveal>
       <ul className="mt-16 grid gap-8 md:grid-cols-3">
         {tiers.map((tier, i) => (
-          <Reveal as="li" key={tier.name} delay={i * 120}>
+          <Reveal as="li" variant="up-sm" key={tier.name} delay={i * 120}>
             <div className="group flex h-full flex-col rounded-2xl border border-white/10 bg-card/60 p-8 transition-colors hover:border-signal/50">
               <h3 className="font-mono text-lg font-bold uppercase text-foreground">{tier.name}</h3>
               <p className="mt-2 text-3xl font-bold text-signal">{tier.price}</p>

@@ -1,5 +1,6 @@
-import Image from 'next/image'
 import { UserRound } from 'lucide-react'
+import { BackgroundVideo } from '@/components/background-video'
+import { Reveal } from '@/components/reveal'
 
 function HeadingWidget() {
   return (
@@ -21,16 +22,9 @@ export function Hero() {
   return (
     <section id="overview" className="relative flex min-h-svh flex-col overflow-hidden">
       <div className="absolute inset-0">
-        <Image
-          src="/images/hero-drone.png"
-          alt="The Executioner drone firing its rotary cannon over clouds at sunset"
-          fill
-          priority
-          sizes="100vw"
-          className="animate-ken-burns object-cover"
-        />
-        <div className="absolute inset-0 animate-flicker bg-orange-200/20 mix-blend-overlay" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/40" aria-hidden="true" />
+        <BackgroundVideo src="/videos/hero.mp4" poster="/images/hero-drone.png" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/90 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-x-0 bottom-0 h-[32rem] bg-gradient-to-t from-black via-black/60 to-transparent" aria-hidden="true" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" aria-hidden="true" />
       </div>
 
@@ -62,7 +56,7 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 mt-auto flex flex-col gap-8 px-4 pb-12 md:flex-row md:items-end md:justify-between md:px-12 md:pb-12">
-        <div>
+        <Reveal onMount duration={1} delay={200}>
           <h1 className="text-chrome text-7xl font-bold uppercase leading-[0.85] tracking-tight sm:text-8xl md:text-9xl lg:text-[9.5rem]">
             The
             <br />
@@ -87,8 +81,10 @@ export function Hero() {
               </a>
             </div>
           </div>
-        </div>
-        <HeadingWidget />
+        </Reveal>
+        <Reveal onMount variant="up-sm" delay={600}>
+          <HeadingWidget />
+        </Reveal>
       </div>
     </section>
   )

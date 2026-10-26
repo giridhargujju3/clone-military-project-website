@@ -29,14 +29,14 @@ export function Contact() {
         className="pointer-events-none absolute -left-40 bottom-0 size-[30rem] rounded-full bg-signal-strong/5 blur-3xl"
         aria-hidden="true"
       />
-      <Reveal className="relative text-center">
+      <Reveal variant="up-sm" className="relative text-center">
         <h2 className="text-signal-gradient font-mono text-5xl font-bold uppercase md:text-7xl">Secure Channel</h2>
         <p className="mt-4 text-lg uppercase tracking-wide text-muted-foreground">
           Initiate Encrypted Transmission // Inquiries & Acquisitions
         </p>
       </Reveal>
 
-      <Reveal className="relative mx-auto mt-16 max-w-4xl">
+      <Reveal variant="up" delay={150} className="relative mx-auto mt-16 max-w-4xl">
         <div className="relative border border-white/10 bg-card/50 p-6 backdrop-blur md:p-12">
           <Corner className="-left-px -top-px border-l-2 border-t-2" />
           <Corner className="-right-px -top-px border-r-2 border-t-2" />

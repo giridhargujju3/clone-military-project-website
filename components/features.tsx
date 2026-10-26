@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { BackgroundVideo } from '@/components/background-video'
 import { Reveal } from '@/components/reveal'
 import { cn } from '@/lib/utils'
 
@@ -6,6 +7,7 @@ type Feature = {
   title: string
   description: string
   image: string
+  video?: string
   alt: string
   align: 'center' | 'left'
 }
@@ -15,6 +17,7 @@ const features: Feature[] = [
     title: 'Vulcan M134',
     description: '6,000 rounds per minute. Unrivaled suppression.',
     image: '/images/vulcan-cannon.png',
+    video: '/videos/vulcan-cannon.mp4',
     alt: 'Close-up of the Vulcan M134 rotary cannon under a spotlight',
     align: 'center',
   },
@@ -22,6 +25,7 @@ const features: Feature[] = [
     title: 'Silent Flight',
     description: 'Dual-rotor system. Acoustic signature reduced by 60%.',
     image: '/images/rotor-assembly.png',
+    video: '/videos/rotor-assembly.mp4',
     alt: 'The drone hovering in a dark hangar',
     align: 'center',
   },
@@ -29,6 +33,7 @@ const features: Feature[] = [
     title: 'All-Seeing',
     description: 'Multi-spectral imaging meets edge AI.',
     image: '/images/sensor-eye.png',
+    video: '/videos/eye.mp4',
     alt: 'Drone camera gimbal lens with a red indicator light',
     align: 'center',
   },
@@ -36,6 +41,7 @@ const features: Feature[] = [
     title: 'Aerial Dominance',
     description: 'Complete situational awareness from any altitude.',
     image: '/images/top-view.png',
+    video: '/videos/top-view.mp4',
     alt: 'Top-down view of the drone flying above a city at night',
     align: 'center',
   },
@@ -68,14 +74,19 @@ function FeatureSection({ feature }: { feature: Feature }) {
   return (
     <section className="relative flex min-h-svh items-center overflow-hidden border-b border-border">
       <div className="absolute inset-0">
-        <Image
-          src={feature.image || '/placeholder.svg'}
-          alt={feature.alt}
-          fill
-          sizes="100vw"
-          className="animate-ken-burns object-cover opacity-50"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" aria-hidden="true" />
+        {feature.video ? (
+          <BackgroundVideo src={feature.video} poster={feature.image} className="opacity-50" />
+        ) : (
+          <Image
+            src={feature.image || '/placeholder.svg'}
+            alt={feature.alt}
+            fill
+            sizes="100vw"
+            className="animate-ken-burns object-cover opacity-50"
+          />
+        )}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black to-transparent" aria-hidden="true" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent" aria-hidden="true" />
       </div>
       <Reveal
         className={cn(
@@ -105,7 +116,7 @@ export function Features() {
 export function DeployCta() {
   return (
     <section className="flex flex-col items-center justify-center gap-8 border-b border-border px-4 py-32 text-center">
-      <Reveal>
+      <Reveal variant="zoom-sm">
         <h2 className="text-chrome text-5xl font-bold md:text-7xl">Ready to deploy.</h2>
         <a
           href="#contact"

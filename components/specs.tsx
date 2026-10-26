@@ -83,7 +83,7 @@ export function Specs() {
   return (
     <section id="specs" className="relative scroll-mt-16 bg-background">
       <div className="px-4 pb-8 pt-32 text-center">
-        <Reveal>
+        <Reveal variant="up-sm">
           <h2 className="text-chrome font-mono text-5xl font-bold uppercase md:text-7xl">Technical Data</h2>
           <p className="mt-4 text-sm uppercase tracking-[0.25em] text-muted-foreground">
             Classified Specifications // Authorized Eyes Only
@@ -125,7 +125,7 @@ export function Specs() {
           id={group.id}
           className="mx-auto grid min-h-[80vh] max-w-7xl scroll-mt-36 items-center gap-12 px-4 py-24 md:px-24 lg:grid-cols-2"
         >
-          <Reveal>
+          <Reveal variant="left">
             <h3 className="flex items-baseline gap-5 text-4xl font-bold uppercase text-foreground md:text-5xl">
               <span className="font-mono text-5xl text-signal-strong/70 md:text-6xl">{group.index}</span>
               {group.title}
@@ -142,7 +142,9 @@ export function Specs() {
               ))}
             </dl>
           </Reveal>
-          <SpecRadar tag={group.tag} />
+          <Reveal variant="zoom" delay={150}>
+            <SpecRadar tag={group.tag} />
+          </Reveal>
         </article>
       ))}
     </section>
